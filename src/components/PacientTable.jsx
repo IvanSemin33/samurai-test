@@ -13,7 +13,9 @@ import {
   TableCell,
   TablePagination,
   TableHead,
+  LinearProgress,
 } from "@material-ui/core";
+import _ from "lodash";
 
 const PacientTable = ({
   getTableData,
@@ -47,74 +49,80 @@ const PacientTable = ({
   };
 
   return (
-    <Grid
-      container
-      direction="column"
-      justify="center"
-      alignItems="center"
-      spacing={2}
-    >
-      <Grid item>
-        {!fetchInProgress && (
-          <Paper>
-            <TableContainer>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    {[
-                      "ID",
-                      "Name",
-                      "Age",
-                      "Last Updated",
-                      "Created At",
-                      "Delete",
-                    ].map((header) => (
-                      <TableCell key={header}>{header}</TableCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {tableData
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((pacient) => (
-                      <TableRow hover key={pacient.resource.id}>
-                        {console.log(pacient)}
-                        <TableCell align="left">
-                          {pacient.resource.id}
-                        </TableCell>
-                        <TableCell align="left">
-                          {pacient.resource.name[0].given[0]}
-                        </TableCell>
-                        <TableCell align="left">
-                          {pacient.resource.age}
-                        </TableCell>
-                        <TableCell align="left">
-                          {pacient.resource.meta.lastUpdated}
-                        </TableCell>
-                        <TableCell align="left">
-                          {pacient.resource.meta.createdAt}
-                        </TableCell>
-                        <TableCell align="left">
-                          <Button>X</Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={tableData.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onChangePage={handleChangePage}
-              onChangeRowsPerPage={handleChangeRowsPerPage}
-            />
-          </Paper>
-        )}
-      </Grid>
-    </Grid>
+    <>
+      {_.isEmpty(tableData) && fetchInProgress && <LinearProgress />}
+      {!_.isEmpty(tableData) && !fetchInProgress && (
+        <Grid
+          container
+          direction="column"
+          justify="center"
+          alignItems="center"
+          spacing={2}
+        >
+          <Grid item>
+            <Paper>
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      {[
+                        "ID",
+                        "Name",
+                        "Age",
+                        "Last Updated",
+                        "Created At",
+                        "Delete",
+                      ].map((header) => (
+                        <TableCell key={header}>{header}</TableCell>
+                      ))}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {tableData
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((pacient) => (
+                        <TableRow hover key={pacient.resource.id}>
+                          <TableCell align="left">
+                            {pacient.resource.id}
+                          </TableCell>
+                          <TableCell align="left">
+                            {pacient.resource.name &&
+                              pacient.resource.name[0]?.given[0]}
+                          </TableCell>
+                          <TableCell align="left">
+                            {pacient.resource.age}
+                          </TableCell>
+                          <TableCell align="left">
+                            {pacient.resource.meta.lastUpdated}
+                          </TableCell>
+                          <TableCell align="left">
+                            {pacient.resource.meta.createdAt}
+                          </TableCell>
+                          <TableCell align="left">
+                            <Button>X</Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={tableData.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+              />
+            </Paper>
+          </Grid>
+        </Grid>
+      )}
+    </>
   );
 };
 
