@@ -7,7 +7,7 @@ import {
 } from "../types";
 
 const initialState = {
-  fetchInProgress: false,
+  fetchInProgress: true,
   error: {},
   authorized: false,
 };
@@ -42,6 +42,7 @@ const authReducer = (state = initialState, action) => {
         ...state,
         authorized: true,
         token: action.token,
+        fetchInProgress: false,
       };
     }
     case LOGOUT: {

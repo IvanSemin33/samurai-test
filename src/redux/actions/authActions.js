@@ -43,3 +43,16 @@ export const logout = () => (dispatch) => {
     type: LOGOUT,
   });
 };
+
+/**
+ * Check user token in Local Storage
+ */
+export const checkToken = () => (dispatch) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    dispatch({
+      type: LOGIN,
+      token: token,
+    });
+  }
+};
