@@ -44,32 +44,35 @@ const PacientTable = ({ getTableData, tableData, token, fetchInProgress }) => {
   return (
     <>
       {_.isEmpty(tableData) && fetchInProgress && <LinearProgress />}
-      {!_.isEmpty(tableData) && !fetchInProgress && (
-        <Grid
-          container
-          direction="column"
-          justify="center"
-          alignItems="center"
-          spacing={2}
-        >
-          <Grid item>
-            <Paper>
-              <TableContainer>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      {[
-                        "ID",
-                        "Name",
-                        "Age",
-                        "Last Updated",
-                        "Created At",
-                        "Delete",
-                      ].map((header) => (
-                        <TableCell key={header}>{header}</TableCell>
-                      ))}
-                    </TableRow>
-                  </TableHead>
+      <Grid
+        container
+        direction="column"
+        justify="center"
+        alignItems="center"
+        spacing={2}
+      >
+        <Grid item>
+          <Paper>
+            <TableContainer>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    {[
+                      "ID",
+                      "Name",
+                      "Surname",
+                      "Born",
+                      "Gender",
+                      "Address",
+                      "Last Updated",
+                      "Created At",
+                      "Delete",
+                    ].map((header) => (
+                      <TableCell key={header}>{header}</TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                {!_.isEmpty(tableData) && !fetchInProgress && (
                   <TableBody>
                     {tableData
                       .slice(
@@ -86,7 +89,18 @@ const PacientTable = ({ getTableData, tableData, token, fetchInProgress }) => {
                               pacient?.resource?.name[0]?.given[0]}
                           </TableCell>
                           <TableCell align="left">
-                            {pacient?.resource?.age}
+                            {pacient?.resource?.name &&
+                              pacient?.resource?.name[0]?.family}
+                          </TableCell>
+                          <TableCell align="left">
+                            {pacient?.resource?.birthDate}
+                          </TableCell>
+                          <TableCell align="left">
+                            {pacient?.resource?.gender}
+                          </TableCell>
+                          <TableCell align="left">
+                            {pacient?.resource?.address &&
+                              pacient?.resource?.address[0]?.line[0]}
                           </TableCell>
                           <TableCell align="left">
                             {pacient?.resource?.meta?.lastUpdated}
@@ -100,21 +114,21 @@ const PacientTable = ({ getTableData, tableData, token, fetchInProgress }) => {
                         </TableRow>
                       ))}
                   </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component="div"
-                count={tableData.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-              />
-            </Paper>
-          </Grid>
+                )}
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={tableData.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onChangePage={handleChangePage}
+              onChangeRowsPerPage={handleChangeRowsPerPage}
+            />
+          </Paper>
         </Grid>
-      )}
+      </Grid>
     </>
   );
 };
