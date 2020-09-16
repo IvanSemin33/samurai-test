@@ -24,6 +24,7 @@ const authReducer = (state = initialState, action) => {
         ...state,
         fetchInProgress: false,
         error: {},
+        response: action.response,
       };
     }
     case FETCH_TABLE_ERROR: {
@@ -31,6 +32,7 @@ const authReducer = (state = initialState, action) => {
         ...state,
         fetchInProgress: false,
         error: action.error,
+        response: action.response,
       };
     }
     case SET_TABLE_DATA: {

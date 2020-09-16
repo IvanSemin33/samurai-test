@@ -17,18 +17,11 @@ import {
 } from "@material-ui/core";
 import _ from "lodash";
 
-const PacientTable = ({
-  getTableData,
-  tableData,
-  id,
-  secret,
-  fetchInProgress,
-}) => {
+const PacientTable = ({ getTableData, tableData, token, fetchInProgress }) => {
   PacientTable.propTypes = {
     getTableData: PropTypes.func.isRequired,
     tableData: PropTypes.array.isRequired,
-    id: PropTypes.string.isRequired,
-    secret: PropTypes.string.isRequired,
+    token: PropTypes.string.isRequired,
     fetchInProgress: PropTypes.bool.isRequired,
   };
 
@@ -36,7 +29,7 @@ const PacientTable = ({
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   useEffect(() => {
-    getTableData({ id, secret });
+    getTableData({ token });
   }, [getTableData]);
 
   const handleChangePage = (event, newPage) => {
@@ -86,20 +79,20 @@ const PacientTable = ({
                       .map((pacient) => (
                         <TableRow hover key={pacient.resource.id}>
                           <TableCell align="left">
-                            {pacient.resource.id}
+                            {pacient?.resource?.id}
                           </TableCell>
                           <TableCell align="left">
-                            {pacient.resource.name &&
-                              pacient.resource.name[0]?.given[0]}
+                            {pacient?.resource?.name &&
+                              pacient?.resource?.name[0]?.given[0]}
                           </TableCell>
                           <TableCell align="left">
-                            {pacient.resource.age}
+                            {pacient?.resource?.age}
                           </TableCell>
                           <TableCell align="left">
-                            {pacient.resource.meta.lastUpdated}
+                            {pacient?.resource?.meta?.lastUpdated}
                           </TableCell>
                           <TableCell align="left">
-                            {pacient.resource.meta.createdAt}
+                            {pacient?.resource?.meta?.createdAt}
                           </TableCell>
                           <TableCell align="left">
                             <Button>X</Button>
@@ -128,8 +121,7 @@ const PacientTable = ({
 
 const mapStateToProps = (state) => ({
   tableData: state.table.data,
-  id: state.auth.id,
-  secret: state.auth.secret,
+  token: state.auth.token,
   fetchInProgress: state.table.fetchInProgress,
 });
 

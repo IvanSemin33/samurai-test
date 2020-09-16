@@ -4,17 +4,17 @@ import {
   FETCH_TABLE_SUCCESS,
   SET_TABLE_DATA,
 } from "../types";
-import { getPatient } from "../../API/api";
+import { get_patient } from "../../API/api";
 
 /**
  * Get table data
  */
-export const getTableData = ({ id, secret }) => (dispatch) => {
+export const getTableData = ({ token }) => (dispatch) => {
   dispatch({
     type: FETCH_TABLE,
   });
 
-  getPatient({ username: id, password: secret })
+  get_patient({ token })
     .then((response) => {
       dispatch({
         type: FETCH_TABLE_SUCCESS,

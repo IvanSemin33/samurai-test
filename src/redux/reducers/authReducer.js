@@ -25,6 +25,7 @@ const authReducer = (state = initialState, action) => {
         ...state,
         fetchInProgress: false,
         error: {},
+        response: action.response,
       };
     }
     case FETCH_AUTH_ERROR: {
@@ -33,14 +34,14 @@ const authReducer = (state = initialState, action) => {
         fetchInProgress: false,
         error: action.error,
         authorized: false,
+        response: action.response,
       };
     }
     case LOGIN: {
       return {
         ...state,
         authorized: true,
-        id: action.id,
-        secret: action.secret,
+        token: action.token,
       };
     }
     case LOGOUT: {

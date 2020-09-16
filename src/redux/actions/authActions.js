@@ -5,7 +5,7 @@ import {
   FETCH_AUTH_ERROR,
   FETCH_AUTH_SUCCESS,
 } from "../types";
-import { getPatient } from "../../API/api";
+import { post_auth_token } from "../../API/api";
 
 /**
  * Login user
@@ -15,7 +15,7 @@ export const login = ({ id, secret }) => (dispatch) => {
     type: FETCH_AUTH,
   });
 
-  getPatient({ username: id, password: secret })
+  post_auth_token({ client_id: id, client_secret: secret })
     .then((response) => {
       dispatch({
         type: FETCH_AUTH_SUCCESS,
@@ -23,9 +23,9 @@ export const login = ({ id, secret }) => (dispatch) => {
       });
       dispatch({
         type: LOGIN,
-        id,
-        secret,
+        token: response?.data?.access_token,
       });
+      localStorage.setItem("token", response?.data?.access_token);
     })
     .catch((error) => {
       dispatch({
