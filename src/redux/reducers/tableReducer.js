@@ -3,12 +3,14 @@ import {
   FETCH_TABLE_SUCCESS,
   FETCH_TABLE_ERROR,
   SET_TABLE_DATA,
+  SET_DIALOG_CREATE_OPEN,
 } from "../types";
 
 const initialState = {
   fetchInProgress: false,
   error: {},
   data: [],
+  dialogCreate: { open: false },
 };
 
 const authReducer = (state = initialState, action) => {
@@ -40,6 +42,12 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         data: entry,
+      };
+    }
+    case SET_DIALOG_CREATE_OPEN: {
+      return {
+        ...state,
+        dialogCreate: { open: action.open },
       };
     }
     default:

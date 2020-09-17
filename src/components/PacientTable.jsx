@@ -16,8 +16,16 @@ import {
   LinearProgress,
 } from "@material-ui/core";
 import _ from "lodash";
+import { setDialogCreateOpen } from "../redux/actions/tableActions";
+import DialogCreate from "./DialogCreate";
 
-const PacientTable = ({ getTableData, tableData, token, fetchInProgress }) => {
+const PacientTable = ({
+  getTableData,
+  tableData,
+  token,
+  fetchInProgress,
+  setDialogCreateOpen,
+}) => {
   PacientTable.propTypes = {
     getTableData: PropTypes.func.isRequired,
     tableData: PropTypes.array.isRequired,
@@ -41,6 +49,10 @@ const PacientTable = ({ getTableData, tableData, token, fetchInProgress }) => {
     setPage(0);
   };
 
+  const onClickCreatePatient = () => {
+    setDialogCreateOpen(true);
+  };
+
   return (
     <>
       {_.isEmpty(tableData) && fetchInProgress && <LinearProgress />}
@@ -52,6 +64,15 @@ const PacientTable = ({ getTableData, tableData, token, fetchInProgress }) => {
         spacing={2}
       >
         <Grid item>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={onClickCreatePatient}
+          >
+            Create Patient
+          </Button>
+        </Grid>
+        <Grid item>
           <Paper>
             <TableContainer>
               <Table>
@@ -59,9 +80,9 @@ const PacientTable = ({ getTableData, tableData, token, fetchInProgress }) => {
                   <TableRow>
                     {[
                       "ID",
-                      "Name",
-                      "Surname",
-                      "Born",
+                      "Given name",
+                      "Family name",
+                      "Birth date",
                       "Gender",
                       "Address",
                       "Last Updated",
@@ -129,6 +150,7 @@ const PacientTable = ({ getTableData, tableData, token, fetchInProgress }) => {
           </Paper>
         </Grid>
       </Grid>
+      <DialogCreate />
     </>
   );
 };
@@ -141,6 +163,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   getTableData,
+  setDialogCreateOpen,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PacientTable);

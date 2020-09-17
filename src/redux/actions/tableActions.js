@@ -3,8 +3,10 @@ import {
   FETCH_TABLE_ERROR,
   FETCH_TABLE_SUCCESS,
   SET_TABLE_DATA,
+  SET_DIALOG_CREATE_OPEN,
 } from "../types";
-import { get_patient } from "../../API/api";
+import { get_patient, post_patient } from "../../API/api";
+import { parsePatientData } from "../../helpers/actionsHelper";
 
 /**
  * Get table data
@@ -24,6 +26,67 @@ export const getTableData = ({ token }) => (dispatch) => {
         type: SET_TABLE_DATA,
         data: response.data,
       });
+    })
+    .catch((error) => {
+      dispatch({
+        type: FETCH_TABLE_ERROR,
+        error,
+      });
+    });
+};
+
+/**
+ * Set open state of patcient create dialog
+ */
+export const setDialogCreateOpen = (open) => (dispatch) => {
+  dispatch({
+    type: SET_DIALOG_CREATE_OPEN,
+    open,
+  });
+};
+
+/**
+ * Create new patient
+ */
+export const createPatient = ({ token, data }) => (dispatch) => {
+  dispatch({
+    type: FETCH_TABLE,
+  });
+
+  const patientData = parsePatientData(data);
+
+  post_patient({ token, data: patientData })
+    .then((response) => {
+      dispatch({
+        type: FETCH_TABLE_SUCCESS,
+        response,
+      });
+      dispatch({
+        type: SET_DIALOG_CREATE_OPEN,
+        open: false,
+      });
+    })
+    .then(() => {
+      dispatch({
+        type: FETCH_TABLE,
+      });
+      get_patient({ token })
+        .then((response) => {
+          dispatch({
+            type: FETCH_TABLE_SUCCESS,
+            response,
+          });
+          dispatch({
+            type: SET_TABLE_DATA,
+            data: response.data,
+          });
+        })
+        .catch((error) => {
+          dispatch({
+            type: FETCH_TABLE_ERROR,
+            error,
+          });
+        });
     })
     .catch((error) => {
       dispatch({
