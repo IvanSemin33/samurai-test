@@ -49,6 +49,8 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         authorized: false,
+        fetchInProgress: false,
+        token: "",
       };
     }
     default:

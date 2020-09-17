@@ -54,5 +54,9 @@ export const checkToken = () => (dispatch) => {
       type: LOGIN,
       token: token,
     });
+  } else {
+    dispatch({
+      type: LOGOUT,
+    });
   }
 };
