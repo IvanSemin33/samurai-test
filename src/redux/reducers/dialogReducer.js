@@ -3,12 +3,14 @@ import {
   FETCH_DIALOG_ERROR,
   SET_DIALOG_OPEN,
   FETCH_DIALOG_SUCCESS,
+  SET_PATIENT_DATA,
 } from "../types";
 
 const initialState = {
-  fetchInProgress: false,
+  fetchInProgress: true,
   error: {},
   open: "", //edit, create
+  patientId: "",
 };
 
 const authReducer = (state = initialState, action) => {
@@ -36,9 +38,21 @@ const authReducer = (state = initialState, action) => {
       };
     }
     case SET_DIALOG_OPEN: {
+      if (action.open) {
+        return {
+          ...state,
+          open: action.open,
+          patientId: action.patientId,
+        };
+      }
+      return {
+        ...initialState,
+      };
+    }
+    case SET_PATIENT_DATA: {
       return {
         ...state,
-        open: action.open,
+        data: action.data,
       };
     }
     default:

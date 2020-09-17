@@ -14,7 +14,7 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
-import { setDialogOpen, createPatient } from "../redux/actions/tableActions";
+import { setDialogOpen, createPatient } from "../redux/actions/dialogActions";
 
 const DialogCreate = ({ open, setDialogOpen, createPatient, token }) => {
   DialogCreate.propTypes = {};
@@ -26,7 +26,7 @@ const DialogCreate = ({ open, setDialogOpen, createPatient, token }) => {
   };
 
   const onClose = () => {
-    setDialogOpen("");
+    setDialogOpen({ open: "" });
   };
 
   const onChangeField = (event) => {
@@ -34,7 +34,7 @@ const DialogCreate = ({ open, setDialogOpen, createPatient, token }) => {
     setData({ ...data, [id]: value });
   };
 
-  const onChangeDataField = ({ id, date }) => {
+  const onChangeDateField = ({ id, date }) => {
     setData({ ...data, [id]: date });
   };
 
@@ -65,7 +65,7 @@ const DialogCreate = ({ open, setDialogOpen, createPatient, token }) => {
               format="YYYY-MM-DD"
               value={data.birth_date}
               InputAdornmentProps={{ position: "end" }}
-              onChange={(date) => onChangeDataField({ id: "birth_date", date })}
+              onChange={(date) => onChangeDateField({ id: "birth_date", date })}
               fullWidth
             />
           </MuiPickersUtilsProvider>

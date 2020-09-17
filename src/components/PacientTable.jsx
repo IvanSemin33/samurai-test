@@ -17,8 +17,10 @@ import {
   IconButton,
 } from "@material-ui/core";
 import _ from "lodash";
-import { setDialogOpen, deletePatient } from "../redux/actions/tableActions";
+import { deletePatient } from "../redux/actions/tableActions";
+import { setDialogOpen } from "../redux/actions/dialogActions";
 import DialogCreate from "./DialogCreate";
+import DialogEdit from "./DialogEdit";
 import Search from "./Search";
 import { Delete } from "@material-ui/icons";
 
@@ -54,11 +56,15 @@ const PacientTable = ({
   };
 
   const onClickCreatePatient = () => {
-    setDialogOpen("create");
+    setDialogOpen({ open: "create" });
   };
 
   const onClickDeletePatient = (id) => {
     deletePatient({ token, id });
+  };
+
+  const onClickEditPatient = (id) => {
+    setDialogOpen({ open: "edit", patientId: id });
   };
 
   return (
@@ -112,7 +118,13 @@ const PacientTable = ({
                         page * rowsPerPage + rowsPerPage
                       )
                       .map((pacient) => (
-                        <TableRow hover key={pacient.resource.id}>
+                        <TableRow
+                          hover
+                          key={pacient?.resource?.id}
+                          onClick={() =>
+                            onClickEditPatient(pacient?.resource?.id)
+                          }
+                        >
                           <TableCell align="left">
                             {pacient?.resource?.id}
                           </TableCell>
@@ -168,6 +180,7 @@ const PacientTable = ({
         </Grid>
       </Grid>
       <DialogCreate />
+      <DialogEdit />
     </>
   );
 };

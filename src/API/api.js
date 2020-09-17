@@ -2,8 +2,9 @@ import axios from "axios";
 
 const base = "http://samuraitest.aidbox.app";
 
-export const get_patient = ({ token }) => {
-  return axios.get(`${base}/Patient`, {
+export const get_patient = ({ token, id }) => {
+  const patientIdPath = id ? `/${id}` : "";
+  return axios.get(`${base}/Patient${patientIdPath}`, {
     headers: {
       "Content-Type": "application/yaml",
       Authorization: `Bearer ${token}`,
@@ -56,4 +57,17 @@ export const delete_patient = ({ token, id }) => {
       Authorization: `Bearer ${token}`,
     },
   });
+};
+
+export const put_patient = ({ token, data, id }) => {
+  return axios.put(
+    `${base}/Patient/${id}`,
+    { ...data },
+    {
+      headers: {
+        "Content-Type": ["application/yaml", "text/plain"],
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 };
