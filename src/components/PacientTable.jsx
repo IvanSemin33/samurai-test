@@ -14,11 +14,16 @@ import {
   TablePagination,
   TableHead,
   LinearProgress,
+  IconButton,
 } from "@material-ui/core";
 import _ from "lodash";
-import { setDialogCreateOpen } from "../redux/actions/tableActions";
+import {
+  setDialogCreateOpen,
+  deletePatient,
+} from "../redux/actions/tableActions";
 import DialogCreate from "./DialogCreate";
 import Search from "./Search";
+import { Delete } from "@material-ui/icons";
 
 const PacientTable = ({
   getTableData,
@@ -26,6 +31,7 @@ const PacientTable = ({
   token,
   fetchInProgress,
   setDialogCreateOpen,
+  deletePatient,
 }) => {
   PacientTable.propTypes = {
     getTableData: PropTypes.func.isRequired,
@@ -52,6 +58,10 @@ const PacientTable = ({
 
   const onClickCreatePatient = () => {
     setDialogCreateOpen(true);
+  };
+
+  const onClickDeletePatient = (id) => {
+    deletePatient({ token, id });
   };
 
   return (
@@ -134,7 +144,13 @@ const PacientTable = ({
                             {pacient?.resource?.meta?.createdAt}
                           </TableCell>
                           <TableCell align="left">
-                            <Button>X</Button>
+                            <IconButton
+                              onClick={() =>
+                                onClickDeletePatient(pacient?.resource?.id)
+                              }
+                            >
+                              <Delete />
+                            </IconButton>
                           </TableCell>
                         </TableRow>
                       ))}
@@ -168,6 +184,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   getTableData,
   setDialogCreateOpen,
+  deletePatient,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PacientTable);

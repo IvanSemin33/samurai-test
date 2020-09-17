@@ -48,3 +48,12 @@ export const get_patient_$lookup = ({ token, q }) => {
     },
   });
 };
+
+export const delete_patient = ({ token, id }) => {
+  return axios.delete(`${base}/Patient/${id}`, {
+    headers: {
+      "Content-Type": "application/yaml",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

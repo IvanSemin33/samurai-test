@@ -5,7 +5,12 @@ import {
   SET_TABLE_DATA,
   SET_DIALOG_CREATE_OPEN,
 } from "../types";
-import { get_patient, post_patient, get_patient_$lookup } from "../../API/api";
+import {
+  get_patient,
+  post_patient,
+  get_patient_$lookup,
+  delete_patient,
+} from "../../API/api";
 import {
   parsePatientData,
   parseSearchValue,
@@ -119,6 +124,51 @@ export const search = ({ token, value }) => (dispatch) => {
         type: SET_TABLE_DATA,
         data: response.data,
       });
+    })
+    .catch((error) => {
+      dispatch({
+        type: FETCH_TABLE_ERROR,
+        error,
+      });
+    });
+};
+
+/**
+ * Delete patient by id
+ */
+export const deletePatient = ({ token, id }) => (dispatch) => {
+  dispatch({
+    type: FETCH_TABLE,
+  });
+
+  delete_patient({ token, id })
+    .then((response) => {
+      dispatch({
+        type: FETCH_TABLE_SUCCESS,
+        response,
+      });
+    })
+    .then(() => {
+      dispatch({
+        type: FETCH_TABLE,
+      });
+      get_patient({ token })
+        .then((response) => {
+          dispatch({
+            type: FETCH_TABLE_SUCCESS,
+            response,
+          });
+          dispatch({
+            type: SET_TABLE_DATA,
+            data: response.data,
+          });
+        })
+        .catch((error) => {
+          dispatch({
+            type: FETCH_TABLE_ERROR,
+            error,
+          });
+        });
     })
     .catch((error) => {
       dispatch({
