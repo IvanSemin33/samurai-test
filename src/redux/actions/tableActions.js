@@ -3,7 +3,13 @@ import {
   FETCH_TABLE_ERROR,
   FETCH_TABLE_SUCCESS,
   SET_TABLE_DATA,
-  SET_DIALOG_CREATE_OPEN,
+  SET_DIALOG_OPEN,
+  FETCH_DELETE,
+  FETCH_DELETE_ERROR,
+  FETCH_DELETE_SUCCESS,
+  FETCH_DIALOG,
+  FETCH_DIALOG_SUCCESS,
+  FETCH_DIALOG_ERROR,
 } from "../types";
 import {
   get_patient,
@@ -46,9 +52,9 @@ export const getTableData = ({ token }) => (dispatch) => {
 /**
  * Set open state of patcient create dialog
  */
-export const setDialogCreateOpen = (open) => (dispatch) => {
+export const setDialogOpen = (open) => (dispatch) => {
   dispatch({
-    type: SET_DIALOG_CREATE_OPEN,
+    type: SET_DIALOG_OPEN,
     open,
   });
 };
@@ -58,7 +64,7 @@ export const setDialogCreateOpen = (open) => (dispatch) => {
  */
 export const createPatient = ({ token, data }) => (dispatch) => {
   dispatch({
-    type: FETCH_TABLE,
+    type: FETCH_DIALOG,
   });
 
   const patientData = parsePatientData(data);
@@ -66,12 +72,12 @@ export const createPatient = ({ token, data }) => (dispatch) => {
   post_patient({ token, data: patientData })
     .then((response) => {
       dispatch({
-        type: FETCH_TABLE_SUCCESS,
+        type: FETCH_DIALOG_SUCCESS,
         response,
       });
       dispatch({
-        type: SET_DIALOG_CREATE_OPEN,
-        open: false,
+        type: SET_DIALOG_OPEN,
+        open: "",
       });
     })
     .then(() => {
@@ -98,7 +104,7 @@ export const createPatient = ({ token, data }) => (dispatch) => {
     })
     .catch((error) => {
       dispatch({
-        type: FETCH_TABLE_ERROR,
+        type: FETCH_DIALOG_ERROR,
         error,
       });
     });
@@ -138,13 +144,13 @@ export const search = ({ token, value }) => (dispatch) => {
  */
 export const deletePatient = ({ token, id }) => (dispatch) => {
   dispatch({
-    type: FETCH_TABLE,
+    type: FETCH_DELETE,
   });
 
   delete_patient({ token, id })
     .then((response) => {
       dispatch({
-        type: FETCH_TABLE_SUCCESS,
+        type: FETCH_DELETE_SUCCESS,
         response,
       });
     })
@@ -172,7 +178,7 @@ export const deletePatient = ({ token, id }) => (dispatch) => {
     })
     .catch((error) => {
       dispatch({
-        type: FETCH_TABLE_ERROR,
+        type: FETCH_DELETE_ERROR,
         error,
       });
     });

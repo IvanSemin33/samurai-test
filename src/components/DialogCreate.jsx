@@ -14,12 +14,9 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
-import {
-  setDialogCreateOpen,
-  createPatient,
-} from "../redux/actions/tableActions";
+import { setDialogOpen, createPatient } from "../redux/actions/tableActions";
 
-const DialogCreate = ({ open, setDialogCreateOpen, createPatient, token }) => {
+const DialogCreate = ({ open, setDialogOpen, createPatient, token }) => {
   DialogCreate.propTypes = {};
 
   const [data, setData] = useState({ birth_date: new Date() });
@@ -29,7 +26,7 @@ const DialogCreate = ({ open, setDialogCreateOpen, createPatient, token }) => {
   };
 
   const onClose = () => {
-    setDialogCreateOpen(false);
+    setDialogOpen("");
   };
 
   const onChangeField = (event) => {
@@ -43,7 +40,7 @@ const DialogCreate = ({ open, setDialogCreateOpen, createPatient, token }) => {
 
   return (
     <div>
-      <Dialog open={open} onClose={onClose}>
+      <Dialog open={open === "create"} onClose={onClose}>
         <DialogTitle>New Patient Info</DialogTitle>
         <DialogContent>
           <TextField
@@ -99,12 +96,12 @@ const DialogCreate = ({ open, setDialogCreateOpen, createPatient, token }) => {
 };
 
 const mapStateToProps = (state) => ({
-  open: state.table.dialogCreate.open,
+  open: state.dialog.open,
   token: state.auth.token,
 });
 
 const mapDispatchToProps = {
-  setDialogCreateOpen,
+  setDialogOpen,
   createPatient,
 };
 

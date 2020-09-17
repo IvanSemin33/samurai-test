@@ -17,10 +17,7 @@ import {
   IconButton,
 } from "@material-ui/core";
 import _ from "lodash";
-import {
-  setDialogCreateOpen,
-  deletePatient,
-} from "../redux/actions/tableActions";
+import { setDialogOpen, deletePatient } from "../redux/actions/tableActions";
 import DialogCreate from "./DialogCreate";
 import Search from "./Search";
 import { Delete } from "@material-ui/icons";
@@ -30,7 +27,7 @@ const PacientTable = ({
   tableData,
   token,
   fetchInProgress,
-  setDialogCreateOpen,
+  setDialogOpen,
   deletePatient,
 }) => {
   PacientTable.propTypes = {
@@ -57,7 +54,7 @@ const PacientTable = ({
   };
 
   const onClickCreatePatient = () => {
-    setDialogCreateOpen(true);
+    setDialogOpen("create");
   };
 
   const onClickDeletePatient = (id) => {
@@ -183,7 +180,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   getTableData,
-  setDialogCreateOpen,
+  setDialogOpen,
   deletePatient,
 };
 

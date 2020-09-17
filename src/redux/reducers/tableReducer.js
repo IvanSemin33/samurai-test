@@ -3,7 +3,9 @@ import {
   FETCH_TABLE_SUCCESS,
   FETCH_TABLE_ERROR,
   SET_TABLE_DATA,
-  SET_DIALOG_CREATE_OPEN,
+  FETCH_DELETE,
+  FETCH_DELETE_ERROR,
+  FETCH_DELETE_SUCCESS,
 } from "../types";
 
 const initialState = {
@@ -44,10 +46,32 @@ const authReducer = (state = initialState, action) => {
         data: entry,
       };
     }
-    case SET_DIALOG_CREATE_OPEN: {
+    case FETCH_DELETE: {
       return {
         ...state,
-        dialogCreate: { open: action.open },
+        deletion: {
+          fetchInProgress: true,
+        },
+      };
+    }
+    case FETCH_DELETE_SUCCESS: {
+      return {
+        ...state,
+        deletion: {
+          fetchInProgress: false,
+          error: {},
+          response: action.response,
+        },
+      };
+    }
+    case FETCH_DELETE_ERROR: {
+      return {
+        ...state,
+        deletion: {
+          fetchInProgress: false,
+          error: action.error,
+          response: action.response,
+        },
       };
     }
     default:
