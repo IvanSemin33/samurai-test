@@ -18,6 +18,7 @@ import {
 import _ from "lodash";
 import { setDialogCreateOpen } from "../redux/actions/tableActions";
 import DialogCreate from "./DialogCreate";
+import Search from "./Search";
 
 const PacientTable = ({
   getTableData,
@@ -71,6 +72,9 @@ const PacientTable = ({
           >
             Create Patient
           </Button>
+        </Grid>
+        <Grid item>
+          <Search />
         </Grid>
         <Grid item>
           <Paper>

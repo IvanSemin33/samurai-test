@@ -5,8 +5,11 @@ import {
   SET_TABLE_DATA,
   SET_DIALOG_CREATE_OPEN,
 } from "../types";
-import { get_patient, post_patient } from "../../API/api";
-import { parsePatientData } from "../../helpers/actionsHelper";
+import { get_patient, post_patient, get_patient_$lookup } from "../../API/api";
+import {
+  parsePatientData,
+  parseSearchValue,
+} from "../../helpers/actionsHelper";
 
 /**
  * Get table data
@@ -87,6 +90,35 @@ export const createPatient = ({ token, data }) => (dispatch) => {
             error,
           });
         });
+    })
+    .catch((error) => {
+      dispatch({
+        type: FETCH_TABLE_ERROR,
+        error,
+      });
+    });
+};
+
+/**
+ * Search
+ */
+export const search = ({ token, value }) => (dispatch) => {
+  dispatch({
+    type: FETCH_TABLE,
+  });
+
+  const searchValue = parseSearchValue(value);
+
+  get_patient_$lookup({ token, q: searchValue })
+    .then((response) => {
+      dispatch({
+        type: FETCH_TABLE_SUCCESS,
+        response,
+      });
+      dispatch({
+        type: SET_TABLE_DATA,
+        data: response.data,
+      });
     })
     .catch((error) => {
       dispatch({

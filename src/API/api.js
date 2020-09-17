@@ -33,3 +33,18 @@ export const post_patient = ({ token, data }) => {
     }
   );
 };
+
+export const get_patient_$lookup = ({ token, q }) => {
+  return axios.get(`${base}/Patient/$lookup`, {
+    headers: {
+      "Content-Type": "application/yaml",
+      Authorization: `Bearer ${token}`,
+    },
+    params: {
+      by: "name.family,name.given,birthDate,identifier.value;address.line",
+      q,
+      count: 50,
+      limit: 200,
+    },
+  });
+};

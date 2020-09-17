@@ -14,3 +14,5 @@ export const parsePatientData = ({
     birthDate: moment(birth_date).format("YYYY-MM-DD"),
   };
 };
+
+export const parseSearchValue = (value) => value.replaceAll(" ", "+");
