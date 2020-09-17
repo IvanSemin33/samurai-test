@@ -7,7 +7,7 @@ import {
 } from "../types";
 
 const initialState = {
-  fetchInProgress: true,
+  fetchInProgress: false,
   error: {},
   open: "", //edit, create
   patientId: "",

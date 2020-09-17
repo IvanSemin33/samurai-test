@@ -15,11 +15,30 @@ import {
 } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
 import { setDialogOpen, createPatient } from "../redux/actions/dialogActions";
+import { validation } from "../helpers/validation";
+import _ from "lodash";
 
-const DialogCreate = ({ open, setDialogOpen, createPatient, token }) => {
+const DialogCreate = ({
+  open,
+  setDialogOpen,
+  createPatient,
+  token,
+  fetchInProgress,
+}) => {
   DialogCreate.propTypes = {};
 
   const [data, setData] = useState({ birth_date: new Date() });
+  const [fieldErrors, setFieldErrors] = useState({
+    given_name: true,
+    family_name: true,
+    gender: true,
+    address: true,
+  });
+  const [areErrors, setAreErrors] = useState(false);
+
+  useEffect(() => {
+    setAreErrors(_.values(fieldErrors).find((value) => value === true));
+  }, [fieldErrors]);
 
   const onCreate = () => {
     createPatient({ token, data });
@@ -31,10 +50,12 @@ const DialogCreate = ({ open, setDialogOpen, createPatient, token }) => {
 
   const onChangeField = (event) => {
     const { id, value } = event.target;
+    setFieldErrors({ ...fieldErrors, [id]: !validation({ id, value }) });
     setData({ ...data, [id]: value });
   };
 
   const onChangeDateField = ({ id, date }) => {
+    setFieldErrors({ ...fieldErrors, [id]: !validation({ id, value: date }) });
     setData({ ...data, [id]: date });
   };
 
@@ -49,12 +70,16 @@ const DialogCreate = ({ open, setDialogOpen, createPatient, token }) => {
             label="Given name"
             fullWidth
             onChange={onChangeField}
+            error={fieldErrors.given_name}
+            required
           />
           <TextField
             id="family_name"
             label="Family name"
             fullWidth
             onChange={onChangeField}
+            error={fieldErrors.family_name}
+            required
           />
           <MuiPickersUtilsProvider utils={MomentUtils}>
             <KeyboardDatePicker
@@ -67,6 +92,7 @@ const DialogCreate = ({ open, setDialogOpen, createPatient, token }) => {
               InputAdornmentProps={{ position: "end" }}
               onChange={(date) => onChangeDateField({ id: "birth_date", date })}
               fullWidth
+              required
             />
           </MuiPickersUtilsProvider>
           <TextField
@@ -74,19 +100,31 @@ const DialogCreate = ({ open, setDialogOpen, createPatient, token }) => {
             label="Gender"
             fullWidth
             onChange={onChangeField}
+            error={fieldErrors.gender}
+            required
           />
           <TextField
             id="address"
             label="Address"
             fullWidth
             onChange={onChangeField}
+            error={fieldErrors.address}
+            required
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={onClose} color="primary">
+          <Button
+            onClick={onClose}
+            color="primary"
+            disabled={fetchInProgress || areErrors}
+          >
             Cancel
           </Button>
-          <Button onClick={onCreate} color="primary">
+          <Button
+            onClick={onCreate}
+            color="primary"
+            disabled={fetchInProgress || areErrors}
+          >
             Create
           </Button>
         </DialogActions>
@@ -98,6 +136,7 @@ const DialogCreate = ({ open, setDialogOpen, createPatient, token }) => {
 const mapStateToProps = (state) => ({
   open: state.dialog.open,
   token: state.auth.token,
+  fetchInProgress: state.dialog.fetchInProgress,
 });
 
 const mapDispatchToProps = {

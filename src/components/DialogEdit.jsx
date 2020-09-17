@@ -19,6 +19,8 @@ import {
   getPatientData,
   updatePatient,
 } from "../redux/actions/dialogActions";
+import { validation } from "../helpers/validation";
+import _ from "lodash";
 
 const DialogEdit = ({
   open,
@@ -33,6 +35,12 @@ const DialogEdit = ({
   DialogEdit.propTypes = {};
 
   const [data, setData] = useState({ birth_date: new Date() });
+  const [fieldErrors, setFieldErrors] = useState({});
+  const [areErrors, setAreErrors] = useState(false);
+
+  useEffect(() => {
+    setAreErrors(_.values(fieldErrors).find((value) => value === true));
+  }, [fieldErrors]);
 
   useEffect(() => {
     patientId && getPatientData({ token, id: patientId });
@@ -52,10 +60,12 @@ const DialogEdit = ({
 
   const onChangeField = (event) => {
     const { id, value } = event.target;
+    setFieldErrors({ ...fieldErrors, [id]: !validation({ id, value }) });
     setData({ ...data, [id]: value });
   };
 
   const onChangeDateField = ({ id, date }) => {
+    setFieldErrors({ ...fieldErrors, [id]: !validation({ id, value: date }) });
     setData({ ...data, [id]: date });
   };
 
@@ -72,6 +82,8 @@ const DialogEdit = ({
               fullWidth
               onChange={onChangeField}
               value={data?.given_name}
+              error={fieldErrors.given_name}
+              required
             />
             <TextField
               id="family_name"
@@ -79,6 +91,8 @@ const DialogEdit = ({
               fullWidth
               onChange={onChangeField}
               value={data?.family_name}
+              error={fieldErrors.family_name}
+              required
             />
             <MuiPickersUtilsProvider utils={MomentUtils}>
               <KeyboardDatePicker
@@ -93,6 +107,7 @@ const DialogEdit = ({
                   onChangeDateField({ id: "birth_date", date })
                 }
                 fullWidth
+                required
               />
             </MuiPickersUtilsProvider>
             <TextField
@@ -101,6 +116,8 @@ const DialogEdit = ({
               fullWidth
               onChange={onChangeField}
               value={data?.gender}
+              error={fieldErrors.gender}
+              required
             />
             <TextField
               id="address"
@@ -108,18 +125,20 @@ const DialogEdit = ({
               fullWidth
               onChange={onChangeField}
               value={data?.address}
+              error={fieldErrors.address}
+              required
             />
           </DialogContent>
           <DialogActions>
             <Button
-              disabled={fetchInProgress}
+              disabled={fetchInProgress || areErrors}
               onClick={onClose}
               color="primary"
             >
               Cancel
             </Button>
             <Button
-              disabled={fetchInProgress}
+              disabled={fetchInProgress || areErrors}
               onClick={onApply}
               color="primary"
             >
