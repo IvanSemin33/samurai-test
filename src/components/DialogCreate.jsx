@@ -8,6 +8,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Grid,
 } from "@material-ui/core";
 import {
   MuiPickersUtilsProvider,
@@ -61,63 +62,79 @@ const DialogCreate = ({
 
   return (
     <div>
-      <Dialog open={open === "create"} onClose={onClose}>
+      <Dialog open={open === "create"} onClose={onClose} fullWidth>
         <DialogTitle>New Patient Info</DialogTitle>
         <DialogContent>
-          <TextField
-            autoFocus
-            id="given_name"
-            label="Given name"
-            fullWidth
-            onChange={onChangeField}
-            error={fieldErrors.given_name}
-            required
-          />
-          <TextField
-            id="family_name"
-            label="Family name"
-            fullWidth
-            onChange={onChangeField}
-            error={fieldErrors.family_name}
-            required
-          />
-          <MuiPickersUtilsProvider utils={MomentUtils}>
-            <KeyboardDatePicker
-              id="birth_date"
-              autoOk
-              variant="inline"
-              label="Birth date"
-              format="YYYY-MM-DD"
-              value={data.birth_date}
-              InputAdornmentProps={{ position: "end" }}
-              onChange={(date) => onChangeDateField({ id: "birth_date", date })}
-              fullWidth
-              required
-            />
-          </MuiPickersUtilsProvider>
-          <TextField
-            id="gender"
-            label="Gender"
-            fullWidth
-            onChange={onChangeField}
-            error={fieldErrors.gender}
-            required
-          />
-          <TextField
-            id="address"
-            label="Address"
-            fullWidth
-            onChange={onChangeField}
-            error={fieldErrors.address}
-            required
-          />
+          <Grid
+            container
+            direction="column"
+            justify="center"
+            alignContent="center"
+            spacing={2}
+          >
+            <Grid item className="dialog_field">
+              <TextField
+                autoFocus
+                id="given_name"
+                label="Given name"
+                fullWidth
+                onChange={onChangeField}
+                error={fieldErrors.given_name}
+                required
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                id="family_name"
+                label="Family name"
+                fullWidth
+                onChange={onChangeField}
+                error={fieldErrors.family_name}
+                required
+              />
+            </Grid>
+            <Grid item>
+              <MuiPickersUtilsProvider utils={MomentUtils}>
+                <KeyboardDatePicker
+                  id="birth_date"
+                  autoOk
+                  variant="inline"
+                  label="Birth date"
+                  format="YYYY-MM-DD"
+                  value={data.birth_date}
+                  InputAdornmentProps={{ position: "end" }}
+                  onChange={(date) =>
+                    onChangeDateField({ id: "birth_date", date })
+                  }
+                  fullWidth
+                  required
+                />
+              </MuiPickersUtilsProvider>
+            </Grid>
+            <Grid item>
+              <TextField
+                id="gender"
+                label="Gender"
+                fullWidth
+                onChange={onChangeField}
+                error={fieldErrors.gender}
+                required
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                id="address"
+                label="Address"
+                fullWidth
+                onChange={onChangeField}
+                error={fieldErrors.address}
+                required
+              />
+            </Grid>
+          </Grid>
         </DialogContent>
         <DialogActions>
-          <Button
-            onClick={onClose}
-            color="primary"
-            disabled={fetchInProgress || areErrors}
-          >
+          <Button onClick={onClose} color="secondary">
             Cancel
           </Button>
           <Button
