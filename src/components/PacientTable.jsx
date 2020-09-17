@@ -23,6 +23,7 @@ import DialogCreate from "./DialogCreate";
 import DialogEdit from "./DialogEdit";
 import Search from "./Search";
 import { Delete } from "@material-ui/icons";
+import moment from "moment";
 
 const PacientTable = ({
   getTableData,
@@ -147,10 +148,14 @@ const PacientTable = ({
                               pacient?.resource?.address[0]?.line[0]}
                           </TableCell>
                           <TableCell align="left">
-                            {pacient?.resource?.meta?.lastUpdated}
+                            {moment(
+                              pacient?.resource?.meta?.lastUpdated
+                            ).format("YYYY-MM-DD")}
                           </TableCell>
                           <TableCell align="left">
-                            {pacient?.resource?.meta?.createdAt}
+                            {moment(pacient?.resource?.meta?.createdAt).format(
+                              "YYYY-MM-DD"
+                            )}
                           </TableCell>
                           <TableCell align="left">
                             <IconButton
