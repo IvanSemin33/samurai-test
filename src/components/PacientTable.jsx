@@ -17,12 +17,13 @@ import {
   IconButton,
 } from '@material-ui/core'
 import _ from 'lodash'
+import { logout } from '../redux/actions/authActions'
 import { deletePatient } from '../redux/actions/tableActions'
 import { setDialogOpen } from '../redux/actions/dialogActions'
 import DialogCreate from './DialogCreate'
 import DialogEdit from './DialogEdit'
 import Search from './Search'
-import { Delete, Edit, EmojiPeople } from '@material-ui/icons'
+import { Delete, Edit, EmojiPeople, ExitToApp } from '@material-ui/icons'
 import moment from 'moment'
 
 const PacientTable = ({
@@ -32,6 +33,7 @@ const PacientTable = ({
   fetchInProgress,
   setDialogOpen,
   deletePatient,
+  logout,
 }) => {
   PacientTable.propTypes = {
     getTableData: PropTypes.func.isRequired,
@@ -69,26 +71,50 @@ const PacientTable = ({
     setDialogOpen({ open: 'edit', patientId: id })
   }
 
+  const onClickExit = () => {
+    logout({ token })
+  }
+
   return (
     <>
       {fetchInProgress && <LinearProgress />}
       <Grid
         container
         direction="column"
-        justify="flex-start"
-        alignItems="flex-start"
+        justify="center"
+        alignItems="center"
         spacing={2}
         className="grid-container_table"
       >
-        <Grid item>
-          <Button
-            startIcon={<EmojiPeople />}
-            variant="outlined"
-            color="primary"
-            onClick={onClickCreatePatient}
-          >
-            Create Patient
-          </Button>
+        <Grid
+          item
+          container
+          direction="row"
+          justify="space-between"
+          alignItems="center"
+          spacing={2}
+          className="grid-container_table"
+        >
+          <Grid item>
+            <Button
+              startIcon={<EmojiPeople />}
+              variant="outlined"
+              color="primary"
+              onClick={onClickCreatePatient}
+            >
+              Create Patient
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              endIcon={<ExitToApp />}
+              variant="outlined"
+              color="inherit"
+              onClick={onClickExit}
+            >
+              Exit
+            </Button>
+          </Grid>
         </Grid>
         <Grid item className="table">
           <TableContainer>
@@ -188,6 +214,7 @@ const mapDispatchToProps = {
   getTableData,
   setDialogOpen,
   deletePatient,
+  logout,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PacientTable)

@@ -71,3 +71,12 @@ export const put_patient = ({ token, data, id }) => {
     },
   )
 }
+
+export const delete_session = ({ token }) => {
+  return axios.delete(`${base}/Session`, {
+    headers: {
+      'Content-Type': 'application/yaml',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}

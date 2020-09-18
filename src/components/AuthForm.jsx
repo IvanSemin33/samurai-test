@@ -1,49 +1,74 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { PropTypes } from 'prop-types'
 import { login } from '../redux/actions/authActions'
-import { TextField, Grid, Button } from '@material-ui/core'
+import { TextField, Grid, Button, Typography } from '@material-ui/core'
+import _ from 'lodash'
 
-const AuthForm = ({ login }) => {
+const AuthForm = ({ login, apiError }) => {
   AuthForm.propTypes = {
     login: PropTypes.func.isRequired,
   }
 
-  const [secret, setSecret] = useState('')
-  const [id, setId] = useState('')
+  const [values, setValues] = useState({ secret: '', id: '' })
+  const [error, setError] = useState(false)
+
+  useEffect(() => {
+    _.isEmpty(apiError) ? setError(false) : setError(true)
+  }, [apiError])
 
   const onClickLogin = () => {
-    login({ secret, id })
+    login({ ...values })
+  }
+
+  const handleField = (event, fieldId) => {
+    setError(false)
+    setValues({ ...values, [fieldId]: event.target.value })
   }
 
   return (
-    <Grid container direction="column" justify="center" alignItems="center" spacing={2}>
-      <Grid item>
-        <TextField
-          variant="outlined"
-          label="Client ID"
-          onChange={({ target }) => setId(target.value)}
-          value={id}
-        />
+    <>
+      <Grid
+        container
+        direction="column"
+        justify="center"
+        alignItems="center"
+        spacing={2}
+        style={{ height: '100vh' }}
+      >
+        <Grid item>
+          <Typography variant="h6">Authorization</Typography>
+        </Grid>
+        <Grid item>
+          <TextField
+            variant="outlined"
+            label="Client ID"
+            onChange={(event) => handleField(event, 'id')}
+            error={error}
+          />
+        </Grid>
+        <Grid item>
+          <TextField
+            variant="outlined"
+            label="Client Secret"
+            onChange={(event) => handleField(event, 'secret')}
+            type="password"
+            error={error}
+          />
+        </Grid>
+        <Grid item>
+          <Button variant="outlined" color="primary" onClick={onClickLogin}>
+            Sign in
+          </Button>
+        </Grid>
       </Grid>
-      <Grid item>
-        <TextField
-          variant="outlined"
-          label="Client Secret"
-          onChange={({ target }) => setSecret(target.value)}
-          value={secret}
-        />
-      </Grid>
-      <Grid item>
-        <Button variant="contained" onClick={onClickLogin}>
-          Login
-        </Button>
-      </Grid>
-    </Grid>
+    </>
   )
 }
 
-const mapStateToProps = (state) => ({})
+const mapStateToProps = (state) => ({
+  apiError: state.auth.error,
+})
 
 const mapDispatchToProps = {
   login,

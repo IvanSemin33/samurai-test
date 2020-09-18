@@ -1,5 +1,5 @@
 import { LOGIN, LOGOUT, FETCH_AUTH, FETCH_AUTH_ERROR, FETCH_AUTH_SUCCESS } from '../types'
-import { post_auth_token } from '../../API/api'
+import { post_auth_token, delete_session } from '../../API/api'
 
 /**
  * Login user
@@ -32,10 +32,28 @@ export const login = ({ id, secret }) => (dispatch) => {
 /**
  * Logout user
  */
-export const logout = () => (dispatch) => {
+export const logout = ({ token }) => (dispatch) => {
   dispatch({
-    type: LOGOUT,
+    type: FETCH_AUTH,
   })
+
+  delete_session({ token })
+    .then((response) => {
+      dispatch({
+        type: FETCH_AUTH_SUCCESS,
+        response,
+      })
+      dispatch({
+        type: LOGOUT,
+      })
+      localStorage.removeItem('token')
+    })
+    .catch((error) => {
+      dispatch({
+        type: FETCH_AUTH_ERROR,
+        error,
+      })
+    })
 }
 
 /**
