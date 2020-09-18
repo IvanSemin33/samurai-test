@@ -11,9 +11,11 @@ const initialState = {
   error: {},
   open: "", //edit, create
   patientId: "",
+  response: {},
+  data: {},
 };
 
-const authReducer = (state = initialState, action) => {
+const dialogReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_DIALOG: {
       return {
@@ -60,4 +62,4 @@ const authReducer = (state = initialState, action) => {
   }
 };
 
-export default authReducer;
+export default dialogReducer;
