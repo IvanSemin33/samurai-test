@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "health-samurai-test"
+    "default": "health-samurai-test",
+    "prod": "health-samurai-test"
   }
 }
