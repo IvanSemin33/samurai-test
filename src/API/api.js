@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const base = "http://samuraitest.aidbox.app";
+const base = "https://samuraitest.aidbox.app";
 
 export const get_patient = ({ token, id }) => {
   const patientIdPath = id ? `/${id}` : "";
