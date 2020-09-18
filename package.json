@@ -26,7 +26,6 @@
     "start": "react-scripts start",
     "build": "CI= react-scripts build",
     "test": "react-scripts test",
-    "deploy": "firebase deploy",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
