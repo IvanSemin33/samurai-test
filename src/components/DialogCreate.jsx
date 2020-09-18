@@ -17,7 +17,13 @@ import { validation } from '../helpers/validation'
 import _ from 'lodash'
 
 const DialogCreate = ({ open, setDialogOpen, createPatient, token, fetchInProgress }) => {
-  DialogCreate.propTypes = {}
+  DialogCreate.propTypes = {
+    open: PropTypes.string.isRequired,
+    setDialogOpen: PropTypes.func.isRequired,
+    createPatient: PropTypes.func.isRequired,
+    token: PropTypes.string.isRequired,
+    fetchInProgress: PropTypes.bool.isRequired,
+  }
 
   const [data, setData] = useState({ birth_date: new Date() })
   const [fieldErrors, setFieldErrors] = useState({

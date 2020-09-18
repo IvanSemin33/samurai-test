@@ -26,7 +26,16 @@ const DialogEdit = ({
   fetchInProgress,
   updatePatient,
 }) => {
-  DialogEdit.propTypes = {}
+  DialogEdit.propTypes = {
+    open: PropTypes.string.isRequired,
+    setDialogOpen: PropTypes.func.isRequired,
+    token: PropTypes.string.isRequired,
+    getPatientData: PropTypes.func.isRequired,
+    patientId: PropTypes.string.isRequired,
+    patientData: PropTypes.object.isRequired,
+    fetchInProgress: PropTypes.bool.isRequired,
+    updatePatient: PropTypes.func.isRequired,
+  }
 
   const [data, setData] = useState({ birth_date: new Date() })
   const [fieldErrors, setFieldErrors] = useState({})

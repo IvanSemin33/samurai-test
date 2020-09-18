@@ -20,8 +20,8 @@ const App = ({ authorized, checkToken, authFetchInProgress }) => {
 
   return (
     <div className="App">
-      {authFetchInProgress && <LinearProgress />}
-      {authorized ? <PacientTable /> : <AuthForm />}
+      {!authorized && authFetchInProgress && <LinearProgress />}
+      {authorized ? <PacientTable /> : !authFetchInProgress && <AuthForm />}
     </div>
   )
 }

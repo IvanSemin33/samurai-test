@@ -1,5 +1,11 @@
 import moment from 'moment'
 
+/**
+ * Patient data parser for request or store
+ * @param {object} params
+ * @param {object} params.data
+ * @param {string} params.type
+ */
 export const parsePatientData = ({
   data: {
     given_name = '',
@@ -12,8 +18,6 @@ export const parsePatientData = ({
   },
   type,
 }) => {
-  console.log(given_name, family_name, birth_date, gender, address, name, birthDate, type)
-
   if (type === 'request') {
     return {
       name: [{ given: [given_name], family: family_name }],
@@ -33,4 +37,4 @@ export const parsePatientData = ({
   }
 }
 
-export const parseSearchValue = (value) => value.replaceAll(' ', '+')
+export const parseSearchValue = (value) => value?.replaceAll(' ', '+')

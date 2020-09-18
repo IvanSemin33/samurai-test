@@ -1,3 +1,9 @@
+/**
+ * Field value validator
+ * @param {object} params
+ * @param {string} params.id
+ * @param {string} params.value
+ */
 export const validation = ({ id, value }) => {
   switch (id) {
     case 'given_name':

@@ -6,7 +6,11 @@ import { search, getTableData } from '../redux/actions/tableActions'
 import { Search as SearchIcon } from '@material-ui/icons'
 
 const Search = ({ search, token, getTableData }) => {
-  Search.propTypes = {}
+  Search.propTypes = {
+    search: PropTypes.func.isRequired,
+    token: PropTypes.string.isRequired,
+    getTableData: PropTypes.func.isRequired,
+  }
 
   const [value, setValue] = useState('')
 

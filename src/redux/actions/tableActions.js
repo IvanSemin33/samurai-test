@@ -3,13 +3,12 @@ import {
   FETCH_TABLE_ERROR,
   FETCH_TABLE_SUCCESS,
   SET_TABLE_DATA,
-  SET_DIALOG_OPEN,
   FETCH_DELETE,
   FETCH_DELETE_ERROR,
   FETCH_DELETE_SUCCESS,
 } from '../types'
-import { get_patient, post_patient, get_patient_$lookup, delete_patient } from '../../API/api'
-import { parsePatientData, parseSearchValue } from '../../helpers/actionsHelper'
+import { get_patient, get_patient_$lookup, delete_patient } from '../../API/api'
+import { parseSearchValue } from '../../helpers/actionsHelper'
 
 /**
  * Get table data

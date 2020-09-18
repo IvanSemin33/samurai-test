@@ -2,6 +2,12 @@ import axios from 'axios'
 
 const base = 'https://samuraitest.aidbox.app'
 
+/**
+ * Get patient/patients
+ * @param {object} params
+ * @param {string} params.token
+ * @param {string} params.id
+ */
 export const get_patient = ({ token, id }) => {
   const patientIdPath = id ? `/${id}` : ''
   return axios.get(`${base}/Patient${patientIdPath}`, {
@@ -12,6 +18,12 @@ export const get_patient = ({ token, id }) => {
   })
 }
 
+/**
+ * Get access token
+ * @param {object} params
+ * @param {string} params.client_id
+ * @param {object} params.client_secret
+ */
 export const post_auth_token = ({ client_id, client_secret }) => {
   return axios.post(`${base}/auth/token`, {
     client_id,
@@ -20,12 +32,16 @@ export const post_auth_token = ({ client_id, client_secret }) => {
   })
 }
 
+/**
+ * Create patient
+ * @param {object} params
+ * @param {string} params.token
+ * @param {object} params.data
+ */
 export const post_patient = ({ token, data }) => {
   return axios.post(
     `${base}/Patient`,
-    {
-      ...data,
-    },
+    { ...data },
     {
       headers: {
         'Content-Type': ['application/yaml', 'text/plain'],
@@ -35,6 +51,12 @@ export const post_patient = ({ token, data }) => {
   )
 }
 
+/**
+ * Search patients
+ * @param {object} params
+ * @param {string} params.token
+ * @param {string} params.q
+ */
 export const get_patient_$lookup = ({ token, q }) => {
   return axios.get(`${base}/Patient/$lookup`, {
     headers: {
@@ -42,7 +64,7 @@ export const get_patient_$lookup = ({ token, q }) => {
       Authorization: `Bearer ${token}`,
     },
     params: {
-      by: 'name.family,name.given,birthDate,identifier.value;address.line',
+      by: 'name.family,name.given,birthDate,gender,identifier.value;address.line',
       q,
       count: 50,
       limit: 200,
@@ -50,6 +72,12 @@ export const get_patient_$lookup = ({ token, q }) => {
   })
 }
 
+/**
+ * Delete patient
+ * @param {object} params
+ * @param {string} params.token
+ * @param {string} params.id
+ */
 export const delete_patient = ({ token, id }) => {
   return axios.delete(`${base}/Patient/${id}`, {
     headers: {
@@ -59,6 +87,13 @@ export const delete_patient = ({ token, id }) => {
   })
 }
 
+/**
+ * Update patient
+ * @param {object} params
+ * @param {string} params.token
+ * @param {object} params.data
+ * @param {string} params.id
+ */
 export const put_patient = ({ token, data, id }) => {
   return axios.put(
     `${base}/Patient/${id}`,
@@ -72,6 +107,11 @@ export const put_patient = ({ token, data, id }) => {
   )
 }
 
+/**
+ * Close Session
+ * @param {object} params
+ * @param {string} params.token
+ */
 export const delete_session = ({ token }) => {
   return axios.delete(`${base}/Session`, {
     headers: {

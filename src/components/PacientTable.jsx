@@ -40,6 +40,10 @@ const PacientTable = ({
     tableData: PropTypes.array.isRequired,
     token: PropTypes.string.isRequired,
     fetchInProgress: PropTypes.bool.isRequired,
+    setDialogOpen: PropTypes.func.isRequired,
+    deletePatient: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
+    authFetchInProgress: PropTypes.bool.isRequired,
   }
 
   const [page, setPage] = useState(0)

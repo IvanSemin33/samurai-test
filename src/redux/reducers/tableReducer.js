@@ -13,6 +13,12 @@ const initialState = {
   error: {},
   data: [],
   dialogCreate: { open: false },
+  response: {},
+  deletion: {
+    fetchInProgress: false,
+    error: {},
+    response: {},
+  },
 }
 
 const authReducer = (state = initialState, action) => {

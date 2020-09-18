@@ -5,7 +5,9 @@
   width: 100%;
   margin: unset;
 }
-
 .table.MuiGrid-item {
   width: 100%;
+}
+.auth_container.MuiGrid-container {
+  height: 100vh;
 }

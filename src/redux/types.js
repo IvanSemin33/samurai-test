@@ -1,9 +1,11 @@
+//auth types
 export const LOGIN = 'LOGIN'
 export const LOGOUT = 'LOGOUT'
 export const FETCH_AUTH = 'FETCH_AUTH'
 export const FETCH_AUTH_ERROR = 'FETCH_AUTH_ERROR'
 export const FETCH_AUTH_SUCCESS = 'FETCH_AUTH_SUCCESS'
 
+//table types
 export const FETCH_TABLE = 'FETCH_TABLE'
 export const FETCH_TABLE_ERROR = 'FETCH_TABLE_ERROR'
 export const FETCH_TABLE_SUCCESS = 'FETCH_TABLE_SUCCESS'
@@ -12,6 +14,7 @@ export const FETCH_DELETE = 'FETCH_DELETE'
 export const FETCH_DELETE_ERROR = 'FETCH_DELETE_ERROR'
 export const FETCH_DELETE_SUCCESS = 'FETCH_DELETE_SUCCESS'
 
+//dialog types
 export const FETCH_DIALOG = 'FETCH_DIALOG'
 export const FETCH_DIALOG_ERROR = 'FETCH_DIALOG_ERROR'
 export const FETCH_DIALOG_SUCCESS = 'FETCH_DIALOG_SUCCESS'
