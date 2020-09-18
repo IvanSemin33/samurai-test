@@ -11,6 +11,8 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.20.0",
+    "firebase": "^7.21.0",
+    "firebase-tools": "^8.10.0",
     "lodash": "^4.17.20",
     "moment": "^2.28.0",
     "prop-types": "^15.7.2",
