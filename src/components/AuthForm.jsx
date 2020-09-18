@@ -5,7 +5,7 @@ import { login } from '../redux/actions/authActions'
 import { TextField, Grid, Button, Typography } from '@material-ui/core'
 import _ from 'lodash'
 
-const AuthForm = ({ login, apiError }) => {
+const AuthForm = ({ login, apiError, fetchInProgress }) => {
   AuthForm.propTypes = {
     login: PropTypes.func.isRequired,
   }
@@ -57,7 +57,12 @@ const AuthForm = ({ login, apiError }) => {
           />
         </Grid>
         <Grid item>
-          <Button variant="outlined" color="primary" onClick={onClickLogin}>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={onClickLogin}
+            disabled={fetchInProgress}
+          >
             Sign in
           </Button>
         </Grid>
@@ -68,6 +73,7 @@ const AuthForm = ({ login, apiError }) => {
 
 const mapStateToProps = (state) => ({
   apiError: state.auth.error,
+  fetchInProgress: state.auth.fetchInProgress,
 })
 
 const mapDispatchToProps = {

@@ -34,6 +34,7 @@ const PacientTable = ({
   setDialogOpen,
   deletePatient,
   logout,
+  authFetchInProgress,
 }) => {
   PacientTable.propTypes = {
     getTableData: PropTypes.func.isRequired,
@@ -111,6 +112,7 @@ const PacientTable = ({
               variant="outlined"
               color="inherit"
               onClick={onClickExit}
+              disabled={authFetchInProgress}
             >
               Exit
             </Button>
@@ -208,6 +210,7 @@ const mapStateToProps = (state) => ({
   tableData: state.table.data,
   token: state.auth.token,
   fetchInProgress: state.table.fetchInProgress,
+  authFetchInProgress: state.auth.fetchInProgress,
 })
 
 const mapDispatchToProps = {
