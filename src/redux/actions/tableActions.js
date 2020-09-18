@@ -7,9 +7,6 @@ import {
   FETCH_DELETE,
   FETCH_DELETE_ERROR,
   FETCH_DELETE_SUCCESS,
-  FETCH_DIALOG,
-  FETCH_DIALOG_SUCCESS,
-  FETCH_DIALOG_ERROR,
 } from '../types'
 import { get_patient, post_patient, get_patient_$lookup, delete_patient } from '../../API/api'
 import { parsePatientData, parseSearchValue } from '../../helpers/actionsHelper'

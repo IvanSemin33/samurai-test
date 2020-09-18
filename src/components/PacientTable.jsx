@@ -5,7 +5,6 @@ import { getTableData } from '../redux/actions/tableActions'
 import {
   Grid,
   Button,
-  Paper,
   TableContainer,
   Table,
   TableBody,
@@ -49,7 +48,7 @@ const PacientTable = ({
 
   useEffect(() => {
     getTableData({ token })
-  }, [getTableData])
+  }, [getTableData, token])
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)

@@ -38,7 +38,7 @@ const DialogEdit = ({
 
   useEffect(() => {
     patientId && getPatientData({ token, id: patientId })
-  }, [patientId])
+  }, [patientId, token, getPatientData])
 
   useEffect(() => {
     setData({ ...patientData })
