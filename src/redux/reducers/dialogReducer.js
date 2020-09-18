@@ -4,16 +4,16 @@ import {
   SET_DIALOG_OPEN,
   FETCH_DIALOG_SUCCESS,
   SET_PATIENT_DATA,
-} from "../types";
+} from '../types'
 
 const initialState = {
   fetchInProgress: false,
   error: {},
-  open: "", //edit, create
-  patientId: "",
+  open: '', //edit, create
+  patientId: '',
   response: {},
   data: {},
-};
+}
 
 const dialogReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -21,7 +21,7 @@ const dialogReducer = (state = initialState, action) => {
       return {
         ...state,
         fetchInProgress: true,
-      };
+      }
     }
     case FETCH_DIALOG_SUCCESS: {
       return {
@@ -29,7 +29,7 @@ const dialogReducer = (state = initialState, action) => {
         fetchInProgress: false,
         error: {},
         response: action.response,
-      };
+      }
     }
     case FETCH_DIALOG_ERROR: {
       return {
@@ -37,7 +37,7 @@ const dialogReducer = (state = initialState, action) => {
         fetchInProgress: false,
         error: action.error,
         response: action.response,
-      };
+      }
     }
     case SET_DIALOG_OPEN: {
       if (action.open) {
@@ -45,21 +45,21 @@ const dialogReducer = (state = initialState, action) => {
           ...state,
           open: action.open,
           patientId: action.patientId,
-        };
+        }
       }
       return {
         ...initialState,
-      };
+      }
     }
     case SET_PATIENT_DATA: {
       return {
         ...state,
         data: action.data,
-      };
+      }
     }
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default dialogReducer;
+export default dialogReducer

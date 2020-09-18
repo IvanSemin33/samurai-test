@@ -1,29 +1,23 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
-import { PropTypes } from "prop-types";
-import { login } from "../redux/actions/authActions";
-import { TextField, Grid, Button } from "@material-ui/core";
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import { PropTypes } from 'prop-types'
+import { login } from '../redux/actions/authActions'
+import { TextField, Grid, Button } from '@material-ui/core'
 
 const AuthForm = ({ login }) => {
   AuthForm.propTypes = {
     login: PropTypes.func.isRequired,
-  };
+  }
 
-  const [secret, setSecret] = useState("");
-  const [id, setId] = useState("");
+  const [secret, setSecret] = useState('')
+  const [id, setId] = useState('')
 
   const onClickLogin = () => {
-    login({ secret, id });
-  };
+    login({ secret, id })
+  }
 
   return (
-    <Grid
-      container
-      direction="column"
-      justify="center"
-      alignItems="center"
-      spacing={2}
-    >
+    <Grid container direction="column" justify="center" alignItems="center" spacing={2}>
       <Grid item>
         <TextField
           variant="outlined"
@@ -46,13 +40,13 @@ const AuthForm = ({ login }) => {
         </Button>
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({})
 
 const mapDispatchToProps = {
   login,
-};
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthForm);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthForm)

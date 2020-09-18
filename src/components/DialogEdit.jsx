@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-import { PropTypes } from "prop-types";
+import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
+import { PropTypes } from 'prop-types'
 import {
   Button,
   TextField,
@@ -9,19 +9,12 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
-} from "@material-ui/core";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
-import MomentUtils from "@date-io/moment";
-import {
-  setDialogOpen,
-  getPatientData,
-  updatePatient,
-} from "../redux/actions/dialogActions";
-import { validation } from "../helpers/validation";
-import _ from "lodash";
+} from '@material-ui/core'
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
+import MomentUtils from '@date-io/moment'
+import { setDialogOpen, getPatientData, updatePatient } from '../redux/actions/dialogActions'
+import { validation } from '../helpers/validation'
+import _ from 'lodash'
 
 const DialogEdit = ({
   open,
@@ -33,56 +26,50 @@ const DialogEdit = ({
   fetchInProgress,
   updatePatient,
 }) => {
-  DialogEdit.propTypes = {};
+  DialogEdit.propTypes = {}
 
-  const [data, setData] = useState({ birth_date: new Date() });
-  const [fieldErrors, setFieldErrors] = useState({});
-  const [areErrors, setAreErrors] = useState(false);
-
-  useEffect(() => {
-    setAreErrors(_.values(fieldErrors).find((value) => value === true));
-  }, [fieldErrors]);
+  const [data, setData] = useState({ birth_date: new Date() })
+  const [fieldErrors, setFieldErrors] = useState({})
+  const [areErrors, setAreErrors] = useState(false)
 
   useEffect(() => {
-    patientId && getPatientData({ token, id: patientId });
-  }, [patientId]);
+    setAreErrors(_.values(fieldErrors).find((value) => value === true))
+  }, [fieldErrors])
 
   useEffect(() => {
-    setData({ ...patientData });
-  }, [patientData]);
+    patientId && getPatientData({ token, id: patientId })
+  }, [patientId])
+
+  useEffect(() => {
+    setData({ ...patientData })
+  }, [patientData])
 
   const onApply = () => {
-    updatePatient({ token, data, id: patientId });
-  };
+    updatePatient({ token, data, id: patientId })
+  }
 
   const onClose = () => {
-    setDialogOpen({ open: "" });
-  };
+    setDialogOpen({ open: '' })
+  }
 
   const onChangeField = (event) => {
-    const { id, value } = event.target;
-    setFieldErrors({ ...fieldErrors, [id]: !validation({ id, value }) });
-    setData({ ...data, [id]: value });
-  };
+    const { id, value } = event.target
+    setFieldErrors({ ...fieldErrors, [id]: !validation({ id, value }) })
+    setData({ ...data, [id]: value })
+  }
 
   const onChangeDateField = ({ id, date }) => {
-    setFieldErrors({ ...fieldErrors, [id]: !validation({ id, value: date }) });
-    setData({ ...data, [id]: date });
-  };
+    setFieldErrors({ ...fieldErrors, [id]: !validation({ id, value: date }) })
+    setData({ ...data, [id]: date })
+  }
 
   return (
     <div>
       {!fetchInProgress && (
-        <Dialog open={open === "edit"} onClose={onClose} fullWidth>
+        <Dialog open={open === 'edit'} onClose={onClose} fullWidth>
           <DialogTitle>Patient Info</DialogTitle>
           <DialogContent>
-            <Grid
-              container
-              direction="column"
-              justify="center"
-              alignContent="center"
-              spacing={2}
-            >
+            <Grid container direction="column" justify="center" alignContent="center" spacing={2}>
               <Grid item className="dialog_field">
                 <TextField
                   autoFocus
@@ -115,10 +102,8 @@ const DialogEdit = ({
                     label="Birth date"
                     format="YYYY-MM-DD"
                     value={data?.birth_date}
-                    InputAdornmentProps={{ position: "end" }}
-                    onChange={(date) =>
-                      onChangeDateField({ id: "birth_date", date })
-                    }
+                    InputAdornmentProps={{ position: 'end' }}
+                    onChange={(date) => onChangeDateField({ id: 'birth_date', date })}
                     fullWidth
                     required
                   />
@@ -152,19 +137,15 @@ const DialogEdit = ({
             <Button onClick={onClose} color="secondary">
               Cancel
             </Button>
-            <Button
-              disabled={fetchInProgress || areErrors}
-              onClick={onApply}
-              color="primary"
-            >
+            <Button disabled={fetchInProgress || areErrors} onClick={onApply} color="primary">
               Apply
             </Button>
           </DialogActions>
         </Dialog>
       )}
     </div>
-  );
-};
+  )
+}
 
 const mapStateToProps = (state) => ({
   open: state.dialog.open,
@@ -172,12 +153,12 @@ const mapStateToProps = (state) => ({
   token: state.auth.token,
   patientData: state.dialog.data,
   fetchInProgress: state.dialog.fetchInProgress,
-});
+})
 
 const mapDispatchToProps = {
   setDialogOpen,
   getPatientData,
   updatePatient,
-};
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(DialogEdit);
+export default connect(mapStateToProps, mapDispatchToProps)(DialogEdit)

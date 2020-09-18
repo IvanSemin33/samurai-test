@@ -14,16 +14,26 @@ jobs:
             - v1-dependencies-{{ checksum "package.json" }}
             - v1-dependencies-
 
-      - run: yarn install
+      - run:
+          name: Install node modules
+          command: yarn install
 
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      - run: yarn test
+      - run:
+          name: Format all files with Prettier
+          command: yarn prettier --write .
 
-      - run: yarn build
+      - run:
+          name: Tests
+          command: yarn test
+
+      - run:
+          name: Build
+          command: yarn build
 
       - run:
           name: Firebase Deploy

@@ -1,16 +1,10 @@
-import {
-  FETCH_AUTH,
-  FETCH_AUTH_SUCCESS,
-  FETCH_AUTH_ERROR,
-  LOGIN,
-  LOGOUT,
-} from "../types";
+import { FETCH_AUTH, FETCH_AUTH_SUCCESS, FETCH_AUTH_ERROR, LOGIN, LOGOUT } from '../types'
 
 const initialState = {
   fetchInProgress: true,
   error: {},
   authorized: false,
-};
+}
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -18,7 +12,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         fetchInProgress: true,
-      };
+      }
     }
     case FETCH_AUTH_SUCCESS: {
       return {
@@ -26,7 +20,7 @@ const authReducer = (state = initialState, action) => {
         fetchInProgress: false,
         error: {},
         response: action.response,
-      };
+      }
     }
     case FETCH_AUTH_ERROR: {
       return {
@@ -35,7 +29,7 @@ const authReducer = (state = initialState, action) => {
         error: action.error,
         authorized: false,
         response: action.response,
-      };
+      }
     }
     case LOGIN: {
       return {
@@ -43,19 +37,19 @@ const authReducer = (state = initialState, action) => {
         authorized: true,
         token: action.token,
         fetchInProgress: false,
-      };
+      }
     }
     case LOGOUT: {
       return {
         ...state,
         authorized: false,
         fetchInProgress: false,
-        token: "",
-      };
+        token: '',
+      }
     }
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default authReducer;
+export default authReducer

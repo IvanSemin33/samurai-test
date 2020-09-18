@@ -1,32 +1,32 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
-import { PropTypes } from "prop-types";
-import { TextField, InputAdornment, IconButton } from "@material-ui/core";
-import { search, getTableData } from "../redux/actions/tableActions";
-import { Search as SearchIcon } from "@material-ui/icons";
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import { PropTypes } from 'prop-types'
+import { TextField, InputAdornment, IconButton } from '@material-ui/core'
+import { search, getTableData } from '../redux/actions/tableActions'
+import { Search as SearchIcon } from '@material-ui/icons'
 
 const Search = ({ search, token, getTableData }) => {
-  Search.propTypes = {};
+  Search.propTypes = {}
 
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('')
 
   const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      if (event.target.value === "") {
-        getTableData({ token });
+    if (event.key === 'Enter') {
+      if (event.target.value === '') {
+        getTableData({ token })
       } else {
-        search({ token, value: event.target.value });
+        search({ token, value: event.target.value })
       }
     }
-  };
+  }
 
   const onClickSearch = (value) => {
-    if (value === "") {
-      getTableData({ token });
+    if (value === '') {
+      getTableData({ token })
     } else {
-      search({ token, value: value });
+      search({ token, value: value })
     }
-  };
+  }
 
   return (
     <TextField
@@ -47,16 +47,16 @@ const Search = ({ search, token, getTableData }) => {
         ),
       }}
     />
-  );
-};
+  )
+}
 
 const mapStateToProps = (state) => ({
   token: state.auth.token,
-});
+})
 
 const mapDispatchToProps = {
   search,
   getTableData,
-};
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+export default connect(mapStateToProps, mapDispatchToProps)(Search)

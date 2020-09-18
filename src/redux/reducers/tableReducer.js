@@ -6,14 +6,14 @@ import {
   FETCH_DELETE,
   FETCH_DELETE_ERROR,
   FETCH_DELETE_SUCCESS,
-} from "../types";
+} from '../types'
 
 const initialState = {
   fetchInProgress: false,
   error: {},
   data: [],
   dialogCreate: { open: false },
-};
+}
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -21,7 +21,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         fetchInProgress: true,
-      };
+      }
     }
     case FETCH_TABLE_SUCCESS: {
       return {
@@ -29,7 +29,7 @@ const authReducer = (state = initialState, action) => {
         fetchInProgress: false,
         error: {},
         response: action.response,
-      };
+      }
     }
     case FETCH_TABLE_ERROR: {
       return {
@@ -37,14 +37,14 @@ const authReducer = (state = initialState, action) => {
         fetchInProgress: false,
         error: action.error,
         response: action.response,
-      };
+      }
     }
     case SET_TABLE_DATA: {
-      const { entry = [] } = action.data;
+      const { entry = [] } = action.data
       return {
         ...state,
         data: entry,
-      };
+      }
     }
     case FETCH_DELETE: {
       return {
@@ -52,7 +52,7 @@ const authReducer = (state = initialState, action) => {
         deletion: {
           fetchInProgress: true,
         },
-      };
+      }
     }
     case FETCH_DELETE_SUCCESS: {
       return {
@@ -62,7 +62,7 @@ const authReducer = (state = initialState, action) => {
           error: {},
           response: action.response,
         },
-      };
+      }
     }
     case FETCH_DELETE_ERROR: {
       return {
@@ -72,11 +72,11 @@ const authReducer = (state = initialState, action) => {
           error: action.error,
           response: action.response,
         },
-      };
+      }
     }
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default authReducer;
+export default authReducer
