@@ -26,5 +26,5 @@ jobs:
       - run: yarn build
 
       - run:
-        name: Firebase Deploy
-        command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN"
+          name: Firebase Deploy
+          command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN"
