@@ -4,6 +4,7 @@ import { PropTypes } from 'prop-types'
 import { login } from '../redux/actions/authActions'
 import { TextField, Grid, Button, Typography } from '@material-ui/core'
 import _ from 'lodash'
+import { ExitToApp as LoginToApp } from '@material-ui/icons'
 
 /**
  * Authorization form
@@ -66,6 +67,7 @@ const AuthForm = ({ login, apiError, fetchInProgress }) => {
           color="primary"
           onClick={onClickLogin}
           disabled={fetchInProgress}
+          endIcon={<LoginToApp />}
         >
           Sign in
         </Button>
