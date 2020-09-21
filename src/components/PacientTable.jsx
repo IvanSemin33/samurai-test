@@ -172,6 +172,7 @@ const PacientTable = ({
                     'created_at',
                   ].map((headerId) => (
                     <TableCell
+                      className="table-head_cell"
                       key={headerId}
                       sortDirection={orderBy[headerId] ? orderBy[headerId] : false}
                     >
@@ -199,6 +200,7 @@ const PacientTable = ({
                         hover
                         key={pacient?.resource?.id}
                         onDoubleClick={() => onClickEditPatient(pacient?.resource?.id)}
+                        className="table-row"
                       >
                         <TableCell align="left">{pacient?.resource?.id}</TableCell>
                         <TableCell align="left">

@@ -11,3 +11,9 @@
 .auth_container.MuiGrid-container {
   height: 100vh;
 }
+.table-row.MuiTableRow-root.MuiTableRow-hover:hover {
+  background-color: rgba(218, 90, 60, 0.04);
+}
+.table-head_cell.MuiTableCell-root.MuiTableCell-head {
+  font-weight: 700;
+}
