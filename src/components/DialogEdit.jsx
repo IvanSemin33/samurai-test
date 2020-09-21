@@ -15,6 +15,7 @@ import MomentUtils from '@date-io/moment'
 import { setDialogOpen, getPatientData, updatePatient } from '../redux/actions/dialogActions'
 import { validation } from '../helpers/validation'
 import _ from 'lodash'
+import { labels } from '../helpers/labels'
 
 const DialogEdit = ({
   open,
@@ -83,7 +84,7 @@ const DialogEdit = ({
                 <TextField
                   autoFocus
                   id="given_name"
-                  label="Given name"
+                  label={labels.given_name}
                   fullWidth
                   onChange={onChangeField}
                   value={data?.given_name}
@@ -94,7 +95,7 @@ const DialogEdit = ({
               <Grid item>
                 <TextField
                   id="family_name"
-                  label="Family name"
+                  label={labels.family_name}
                   fullWidth
                   onChange={onChangeField}
                   value={data?.family_name}
@@ -108,7 +109,7 @@ const DialogEdit = ({
                     id="birth_date"
                     autoOk
                     variant="inline"
-                    label="Birth date"
+                    label={labels.birth_date}
                     format="YYYY-MM-DD"
                     value={data?.birth_date}
                     InputAdornmentProps={{ position: 'end' }}
@@ -121,7 +122,7 @@ const DialogEdit = ({
               <Grid item>
                 <TextField
                   id="gender"
-                  label="Gender"
+                  label={labels.gender}
                   fullWidth
                   onChange={onChangeField}
                   value={data?.gender}
@@ -132,7 +133,7 @@ const DialogEdit = ({
               <Grid item>
                 <TextField
                   id="address"
-                  label="Address"
+                  label={labels.address}
                   fullWidth
                   onChange={onChangeField}
                   value={data?.address}

@@ -15,6 +15,7 @@ import MomentUtils from '@date-io/moment'
 import { setDialogOpen, createPatient } from '../redux/actions/dialogActions'
 import { validation } from '../helpers/validation'
 import _ from 'lodash'
+import { labels } from '../helpers/labels'
 
 const DialogCreate = ({ open, setDialogOpen, createPatient, token, fetchInProgress }) => {
   DialogCreate.propTypes = {
@@ -67,7 +68,7 @@ const DialogCreate = ({ open, setDialogOpen, createPatient, token, fetchInProgre
               <TextField
                 autoFocus
                 id="given_name"
-                label="Given name"
+                label={labels.given_name}
                 fullWidth
                 onChange={onChangeField}
                 error={fieldErrors.given_name}
@@ -77,7 +78,7 @@ const DialogCreate = ({ open, setDialogOpen, createPatient, token, fetchInProgre
             <Grid item>
               <TextField
                 id="family_name"
-                label="Family name"
+                label={labels.family_name}
                 fullWidth
                 onChange={onChangeField}
                 error={fieldErrors.family_name}
@@ -90,7 +91,7 @@ const DialogCreate = ({ open, setDialogOpen, createPatient, token, fetchInProgre
                   id="birth_date"
                   autoOk
                   variant="inline"
-                  label="Birth date"
+                  label={labels.birth_date}
                   format="YYYY-MM-DD"
                   value={data.birth_date}
                   InputAdornmentProps={{ position: 'end' }}
@@ -103,7 +104,7 @@ const DialogCreate = ({ open, setDialogOpen, createPatient, token, fetchInProgre
             <Grid item>
               <TextField
                 id="gender"
-                label="Gender"
+                label={labels.gender}
                 fullWidth
                 onChange={onChangeField}
                 error={fieldErrors.gender}
@@ -113,7 +114,7 @@ const DialogCreate = ({ open, setDialogOpen, createPatient, token, fetchInProgre
             <Grid item>
               <TextField
                 id="address"
-                label="Address"
+                label={labels.address}
                 fullWidth
                 onChange={onChangeField}
                 error={fieldErrors.address}
