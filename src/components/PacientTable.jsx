@@ -58,7 +58,9 @@ const PacientTable = ({
 
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, tableData.length - page * rowsPerPage)
+  const emptyRows = fetchInProgress
+    ? rowsPerPage
+    : rowsPerPage - Math.min(rowsPerPage, tableData.length - page * rowsPerPage)
 
   useEffect(() => {
     setPage(0)
@@ -187,9 +189,10 @@ const PacientTable = ({
                   </TableCell>
                 </TableRow>
               </TableHead>
-              {!_.isEmpty(tableData) && !fetchInProgress && (
-                <TableBody>
-                  {tableData
+              <TableBody>
+                {!_.isEmpty(tableData) &&
+                  !fetchInProgress &&
+                  tableData
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((pacient) => (
                       <TableRow
@@ -227,13 +230,12 @@ const PacientTable = ({
                         </TableCell>
                       </TableRow>
                     ))}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 81 * emptyRows }}>
-                      <TableCell colSpan={10} />
-                    </TableRow>
-                  )}
-                </TableBody>
-              )}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 81 * emptyRows }}>
+                    <TableCell colSpan={10} />
+                  </TableRow>
+                )}
+              </TableBody>
             </Table>
           </TableContainer>
           <TablePagination
