@@ -1,35 +1,30 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { PropTypes } from 'prop-types'
 import { TextField, InputAdornment, IconButton } from '@material-ui/core'
-import { search, getTableData } from '../redux/actions/tableActions'
+import { setSearchValue } from '../redux/actions/tableActions'
 import { Search as SearchIcon } from '@material-ui/icons'
 
-const Search = ({ search, token, getTableData }) => {
+const Search = ({ setSearchValue, searchValue }) => {
   Search.propTypes = {
-    search: PropTypes.func.isRequired,
-    token: PropTypes.string.isRequired,
-    getTableData: PropTypes.func.isRequired,
+    setSearchValue: PropTypes.func.isRequired,
+    searchValue: PropTypes.string.isRequired,
   }
 
   const [value, setValue] = useState('')
 
+  useEffect(() => {
+    setValue(searchValue)
+  }, [searchValue])
+
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
-      if (event.target.value === '') {
-        getTableData({ token })
-      } else {
-        search({ token, value: event.target.value })
-      }
+      onSearch(event.target.value)
     }
   }
 
-  const onClickSearch = (value) => {
-    if (value === '') {
-      getTableData({ token })
-    } else {
-      search({ token, value: value })
-    }
+  const onSearch = (value) => {
+    setSearchValue(value)
   }
 
   return (
@@ -41,10 +36,11 @@ const Search = ({ search, token, getTableData }) => {
       type="search"
       onKeyPress={handleKeyPress}
       onChange={(event) => setValue(event.target.value)}
+      value={value}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
-            <IconButton onClick={() => onClickSearch(value)}>
+            <IconButton onClick={() => onSearch(value)}>
               <SearchIcon />
             </IconButton>
           </InputAdornment>
@@ -55,12 +51,11 @@ const Search = ({ search, token, getTableData }) => {
 }
 
 const mapStateToProps = (state) => ({
-  token: state.auth.token,
+  searchValue: state.table.search,
 })
 
 const mapDispatchToProps = {
-  search,
-  getTableData,
+  setSearchValue,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Search)

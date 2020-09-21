@@ -1,4 +1,5 @@
 import axios from 'axios'
+import _ from 'lodash'
 
 const base = 'https://samuraitest.aidbox.app'
 
@@ -8,13 +9,15 @@ const base = 'https://samuraitest.aidbox.app'
  * @param {string} params.token
  * @param {string} params.id
  */
-export const get_patient = ({ token, id }) => {
+export const get_patient = ({ token, id, _sort }) => {
   const patientIdPath = id ? `/${id}` : ''
+  const params = _.pickBy({ _sort })
   return axios.get(`${base}/Patient${patientIdPath}`, {
     headers: {
       'Content-Type': 'application/yaml',
       Authorization: `Bearer ${token}`,
     },
+    params,
   })
 }
 
@@ -57,18 +60,21 @@ export const post_patient = ({ token, data }) => {
  * @param {string} params.token
  * @param {string} params.q
  */
-export const get_patient_$lookup = ({ token, q }) => {
+export const get_patient_$lookup = ({ token, q, sort }) => {
+  const params = _.pickBy({
+    by: 'name.family,name.given,birthDate,gender,identifier.value;address.line',
+    q,
+    sort,
+    count: 50,
+    limit: 200,
+  })
+
   return axios.get(`${base}/Patient/$lookup`, {
     headers: {
       'Content-Type': 'application/yaml',
       Authorization: `Bearer ${token}`,
     },
-    params: {
-      by: 'name.family,name.given,birthDate,gender,identifier.value;address.line',
-      q,
-      count: 50,
-      limit: 200,
-    },
+    params,
   })
 }
 

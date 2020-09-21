@@ -6,19 +6,24 @@ import {
   FETCH_DELETE,
   FETCH_DELETE_ERROR,
   FETCH_DELETE_SUCCESS,
+  SET_ORDER_BY,
+  SET_SEARCH_VALUE,
+  SET_TABLE_INIT,
 } from '../types'
 import { get_patient, get_patient_$lookup, delete_patient } from '../../API/api'
-import { parseSearchValue } from '../../helpers/actionsHelper'
+import { parseSearchValue, parseOrderBy } from '../../helpers/actionsHelper'
 
 /**
  * Get table data
  */
-export const getTableData = ({ token }) => (dispatch) => {
+export const getTableData = ({ token, orderBy }) => (dispatch) => {
   dispatch({
     type: FETCH_TABLE,
   })
 
-  get_patient({ token })
+  const _sort = parseOrderBy(orderBy)
+
+  get_patient({ token, _sort })
     .then((response) => {
       dispatch({
         type: FETCH_TABLE_SUCCESS,
@@ -40,14 +45,15 @@ export const getTableData = ({ token }) => (dispatch) => {
 /**
  * Search
  */
-export const search = ({ token, value }) => (dispatch) => {
+export const search = ({ token, value, orderBy }) => (dispatch) => {
   dispatch({
     type: FETCH_TABLE,
   })
 
+  const sort = parseOrderBy(orderBy)
   const searchValue = parseSearchValue(value)
 
-  get_patient_$lookup({ token, q: searchValue })
+  get_patient_$lookup({ token, q: searchValue, sort })
     .then((response) => {
       dispatch({
         type: FETCH_TABLE_SUCCESS,
@@ -83,6 +89,9 @@ export const deletePatient = ({ token, id }) => (dispatch) => {
     })
     .then(() => {
       dispatch({
+        type: SET_TABLE_INIT,
+      })
+      dispatch({
         type: FETCH_TABLE,
       })
       get_patient({ token })
@@ -109,4 +118,24 @@ export const deletePatient = ({ token, id }) => (dispatch) => {
         error,
       })
     })
+}
+
+/**
+ * Set order by
+ */
+export const setOrderBy = (orderBy) => (dispatch) => {
+  dispatch({
+    type: SET_ORDER_BY,
+    orderBy,
+  })
+}
+
+/**
+ * Set search value
+ */
+export const setSearchValue = (value) => (dispatch) => {
+  dispatch({
+    type: SET_SEARCH_VALUE,
+    value,
+  })
 }

@@ -6,6 +6,9 @@ import {
   FETCH_DELETE,
   FETCH_DELETE_ERROR,
   FETCH_DELETE_SUCCESS,
+  SET_ORDER_BY,
+  SET_SEARCH_VALUE,
+  SET_TABLE_INIT,
 } from '../types'
 
 const initialState = {
@@ -19,6 +22,8 @@ const initialState = {
     error: {},
     response: {},
   },
+  orderBy: {},
+  search: '',
 }
 
 const authReducer = (state = initialState, action) => {
@@ -78,6 +83,23 @@ const authReducer = (state = initialState, action) => {
           error: action.error,
           response: action.response,
         },
+      }
+    }
+    case SET_ORDER_BY: {
+      return {
+        ...state,
+        orderBy: { ...state.orderBy, ...action.orderBy },
+      }
+    }
+    case SET_SEARCH_VALUE: {
+      return {
+        ...state,
+        search: action.value,
+      }
+    }
+    case SET_TABLE_INIT: {
+      return {
+        ...initialState,
       }
     }
     default:

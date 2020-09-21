@@ -31,7 +31,7 @@ const DialogEdit = ({
     setDialogOpen: PropTypes.func.isRequired,
     token: PropTypes.string.isRequired,
     getPatientData: PropTypes.func.isRequired,
-    patientId: PropTypes.string.isRequired,
+    patientId: PropTypes.string,
     patientData: PropTypes.object.isRequired,
     fetchInProgress: PropTypes.bool.isRequired,
     updatePatient: PropTypes.func.isRequired,

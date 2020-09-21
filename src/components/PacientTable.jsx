@@ -14,36 +14,46 @@ import {
   TableHead,
   LinearProgress,
   IconButton,
+  TableSortLabel,
 } from '@material-ui/core'
 import _ from 'lodash'
 import { logout } from '../redux/actions/authActions'
-import { deletePatient } from '../redux/actions/tableActions'
+import { search, deletePatient, setOrderBy } from '../redux/actions/tableActions'
 import { setDialogOpen } from '../redux/actions/dialogActions'
 import DialogCreate from './DialogCreate'
 import DialogEdit from './DialogEdit'
 import Search from './Search'
 import { Delete, Edit, EmojiPeople, ExitToApp } from '@material-ui/icons'
 import moment from 'moment'
+import { labels } from '../helpers/labels'
 
 const PacientTable = ({
+  authFetchInProgress,
+  deletePatient,
+  fetchInProgress,
   getTableData,
+  logout,
+  setDialogOpen,
+  setOrderBy,
   tableData,
   token,
-  fetchInProgress,
-  setDialogOpen,
-  deletePatient,
-  logout,
-  authFetchInProgress,
+  orderBy,
+  searchValue,
+  search,
 }) => {
   PacientTable.propTypes = {
+    authFetchInProgress: PropTypes.bool.isRequired,
+    deletePatient: PropTypes.func.isRequired,
+    fetchInProgress: PropTypes.bool.isRequired,
     getTableData: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
+    setDialogOpen: PropTypes.func.isRequired,
+    setOrderBy: PropTypes.func.isRequired,
     tableData: PropTypes.array.isRequired,
     token: PropTypes.string.isRequired,
-    fetchInProgress: PropTypes.bool.isRequired,
-    setDialogOpen: PropTypes.func.isRequired,
-    deletePatient: PropTypes.func.isRequired,
-    logout: PropTypes.func.isRequired,
-    authFetchInProgress: PropTypes.bool.isRequired,
+    orderBy: PropTypes.object.isRequired,
+    searchValue: PropTypes.string.isRequired,
+    search: PropTypes.func.isRequired,
   }
 
   const [page, setPage] = useState(0)
@@ -51,8 +61,13 @@ const PacientTable = ({
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, tableData.length - page * rowsPerPage)
 
   useEffect(() => {
-    getTableData({ token })
-  }, [getTableData, token])
+    setPage(0)
+    if (searchValue) {
+      search({ token, value: searchValue, orderBy })
+    } else {
+      getTableData({ token, orderBy })
+    }
+  }, [search, getTableData, token, orderBy, searchValue])
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -68,6 +83,7 @@ const PacientTable = ({
   }
 
   const onClickDeletePatient = (id) => {
+    setPage(0)
     deletePatient({ token, id })
   }
 
@@ -77,6 +93,23 @@ const PacientTable = ({
 
   const onClickExit = () => {
     logout({ token })
+  }
+
+  const handleSort = (id) => {
+    switch (orderBy[id]) {
+      case 'asc':
+        setOrderBy({ [id]: 'desc' })
+        break
+      case 'desc':
+        setOrderBy({ [id]: false })
+        break
+      case false:
+        setOrderBy({ [id]: 'asc' })
+        break
+      default:
+        setOrderBy({ [id]: 'asc' })
+        break
+    }
   }
 
   return (
@@ -127,16 +160,27 @@ const PacientTable = ({
               <TableHead>
                 <TableRow>
                   {[
-                    'ID',
-                    'Given name',
-                    'Family name',
-                    'Birth date',
-                    'Gender',
-                    'Address',
-                    'Last Updated',
-                    'Created At',
-                  ].map((header) => (
-                    <TableCell key={header}>{header}</TableCell>
+                    'id',
+                    'given_name',
+                    'family_name',
+                    'birth_date',
+                    'gender',
+                    'address',
+                    'last_updated',
+                    'created_at',
+                  ].map((headerId) => (
+                    <TableCell
+                      key={headerId}
+                      sortDirection={orderBy[headerId] ? orderBy[headerId] : false}
+                    >
+                      <TableSortLabel
+                        active={orderBy[headerId] ? true : false}
+                        direction={orderBy[headerId] ? orderBy[headerId] : 'asc'}
+                        onClick={() => handleSort(headerId)}
+                      >
+                        {labels[headerId]}
+                      </TableSortLabel>
+                    </TableCell>
                   ))}
                   <TableCell colSpan={2} key="search">
                     <Search />
@@ -210,17 +254,21 @@ const PacientTable = ({
 }
 
 const mapStateToProps = (state) => ({
+  authFetchInProgress: state.auth.fetchInProgress,
+  fetchInProgress: state.table.fetchInProgress,
   tableData: state.table.data,
   token: state.auth.token,
-  fetchInProgress: state.table.fetchInProgress,
-  authFetchInProgress: state.auth.fetchInProgress,
+  orderBy: state.table.orderBy,
+  searchValue: state.table.search,
 })
 
 const mapDispatchToProps = {
-  getTableData,
-  setDialogOpen,
   deletePatient,
+  getTableData,
   logout,
+  setDialogOpen,
+  setOrderBy,
+  search,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PacientTable)

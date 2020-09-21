@@ -8,6 +8,7 @@ import {
   FETCH_DIALOG_SUCCESS,
   FETCH_DIALOG_ERROR,
   SET_PATIENT_DATA,
+  SET_TABLE_INIT,
 } from '../types'
 import { get_patient, post_patient, put_patient } from '../../API/api'
 import { parsePatientData } from '../../helpers/actionsHelper'
@@ -45,6 +46,9 @@ export const createPatient = ({ token, data }) => (dispatch) => {
       })
     })
     .then(() => {
+      dispatch({
+        type: SET_TABLE_INIT,
+      })
       dispatch({
         type: FETCH_TABLE,
       })
@@ -129,6 +133,9 @@ export const updatePatient = ({ token, data, id }) => (dispatch) => {
       })
     })
     .then(() => {
+      dispatch({
+        type: SET_TABLE_INIT,
+      })
       dispatch({
         type: FETCH_TABLE,
       })

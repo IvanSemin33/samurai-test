@@ -13,6 +13,9 @@ export const SET_TABLE_DATA = 'SET_TABLE_DATA'
 export const FETCH_DELETE = 'FETCH_DELETE'
 export const FETCH_DELETE_ERROR = 'FETCH_DELETE_ERROR'
 export const FETCH_DELETE_SUCCESS = 'FETCH_DELETE_SUCCESS'
+export const SET_ORDER_BY = 'SET_ORDER_BY'
+export const SET_SEARCH_VALUE = 'SET_SEARCH_VALUE'
+export const SET_TABLE_INIT = 'SET_TABLE_INIT'
 
 //dialog types
 export const FETCH_DIALOG = 'FETCH_DIALOG'

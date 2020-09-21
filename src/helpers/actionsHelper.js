@@ -1,4 +1,5 @@
 import moment from 'moment'
+import _ from 'lodash'
 
 /**
  * Patient data parser for request or store
@@ -38,3 +39,37 @@ export const parsePatientData = ({
 }
 
 export const parseSearchValue = (value) => value?.replaceAll(' ', '+')
+
+export const parseOrderBy = (orderBy) => {
+  const getOrder = (order) => (order === 'desc' ? '-' : '')
+
+  const orderByArray = _.keys(orderBy).map((id) => {
+    if (orderBy[id]) {
+      const order = getOrder(orderBy[id])
+      switch (id) {
+        case 'id':
+          return `${order}_id`
+        case 'given_name':
+          return `${order}.name.0.given.0`
+        case 'family_name':
+          return `${order}.name.0.family`
+        case 'birth_date':
+          return `${order}.birthDate`
+        case 'gender':
+          return `${order}.gender`
+        case 'address':
+          return `${order}.address.0.line.0`
+        case 'last_updated':
+          return `${order}_lastUpdated`
+        case 'created_at': {
+          return `${order}_createdAt`
+        }
+        default:
+          return ''
+      }
+    } else {
+      return ''
+    }
+  })
+  return _.compact(orderByArray).join(',')
+}
